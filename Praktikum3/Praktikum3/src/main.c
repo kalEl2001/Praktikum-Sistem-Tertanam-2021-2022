@@ -170,6 +170,9 @@ int main (void)
 	setup_timer3();
 	setup_timer4();
 	
+	//set J3 Pin 0 to output
+	ioport_set_pin_dir(J3_PIN0, IOPORT_DIR_OUTPUT);
+	
 	// Workaround for known issue: Enable RTC32 sysclk
 
 	while(1){
@@ -207,6 +210,27 @@ int main (void)
 			gfx_mono_draw_string(buffarray, 0, 8, &sysfont);
 			delay_ms(100);
 			incremental = 0; //reset nilai variable incremental
+			if (newscore > 50) {
+				ioport_set_pin_level(J3_PIN0, HIGH);
+				delay_ms(500);
+				ioport_set_pin_level(J3_PIN0, LOW);
+				delay_ms(500);
+			} else if (newscore > 25) {
+				ioport_set_pin_level(J3_PIN0, HIGH);
+				delay_ms(250);
+				ioport_set_pin_level(J3_PIN0, LOW);
+				delay_ms(250);
+			} else if (newscore > 10) {
+				ioport_set_pin_level(J3_PIN0, HIGH);
+				delay_ms(125);
+				ioport_set_pin_level(J3_PIN0, LOW);
+				delay_ms(125);
+			} else {
+				ioport_set_pin_level(J3_PIN0, HIGH);
+				delay_ms(10);
+				ioport_set_pin_level(J3_PIN0, LOW);
+				delay_ms(1);
+			}
 		}
 	}
 	
